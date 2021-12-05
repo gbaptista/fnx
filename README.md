@@ -27,7 +27,7 @@ The `.fnx.fnl` file is a regular Fennel source code in the root directory of you
 Example:
 
 ```fennel
-{:name "my-package"
+{:name    "my-package"
  :version "0.0.1"
 
  :dependencies {
