@@ -72,8 +72,8 @@ Start by creating a [.fnx.fnl](#fnxfnl-file) file for your project.
 | `fnx config` | It returns the current `fnx` configuration. |
 | `fnx debug` | It returns `fnx` injections for the current directory. |
 | `fnx dep` | Dependencies Manager CLI. It lists the available `fnx dep` commands. Its commands accept `--global` and `--local` for `luarocks`. The default is `--local`. |
-| `fnx dep install` | Install the dependencies described in the `.fnx.fnl` file. Use `-f` to force the re-installation of all dependencies. |
-| `fnx dep uninstall` | Uninstall the dependencies described in the `.fnx.fnl` file. Use `-f` to skip confirmation. |
+| `fnx dep install` | Install the dependencies described in the `.fnx.fnl` file. Use `-f` to force the re-installation of all dependencies. Use `--verbose` for verbose mode. |
+| `fnx dep uninstall` | Uninstall the dependencies described in the `.fnx.fnl` file. Use `-f` to skip confirmation. Use `--verbose` for verbose mode. |
 | `fnx dep list` | It lists the dependencies described in the `.fnx.fnl` file. |
 
 ## Installing
