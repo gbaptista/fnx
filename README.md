@@ -48,7 +48,6 @@ Example:
 
    :purple-rain   {:fennel/fnx {:git/github "gbaptista/purple-rain"}}
 
-
    :dkjson        {:lua/rock ">= 2.5"}
    :luafilesystem {:lua/rock ">= 1.8.0"}}}
 ```
