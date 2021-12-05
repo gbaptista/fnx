@@ -61,6 +61,8 @@ Example:
 
 ## Usage
 
+> _Try the [Hello World](https://github.com/gbaptista/fnx-hello-world) example._
+
 Start by creating a [.fnx.fnl](#fnxfnl-file) file for your project.
 
 | command &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | description |
