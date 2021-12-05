@@ -4,4 +4,4 @@
  :dependencies {
    :luafilesystem {:lua/rock     ">= 1.8.0"}
    :supernova     {:lua/rock     ">= 0.0.2"}
-   :fspec         {:fennel/local "../fspec"}}}
+   :fspec         {:fennel/fnx {:git/github "gbaptista/fspec"}}}}
