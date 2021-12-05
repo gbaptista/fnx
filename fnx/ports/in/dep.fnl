@@ -2,6 +2,7 @@
 
 (local controller/doc (require :fnx.controllers.dep.doc))
 
+(local controller/dep (require :fnx.controllers.dep))
 (local controller/install (require :fnx.controllers.dep.install))
 (local controller/list (require :fnx.controllers.dep.list))
 (local controller/uninstall (require :fnx.controllers.dep.uninstall))
@@ -11,10 +12,11 @@
 (fn port.handle! [input?]
   (let [input     (or input? arg)
         arguments (adapter/argv.parse input 1)]
-    (match (. arguments :command)
-      :install   (controller/install.handle! arguments)
-      :list      (controller/list.handle! arguments)
-      :uninstall (controller/uninstall.handle! arguments)
-      _          (controller/doc.handle!))))
+    (when (controller/dep.fnx-file-exists? arguments)
+      (match (. arguments :command)
+        :install   (controller/install.handle! arguments)
+        :list      (controller/list.handle! arguments)
+        :uninstall (controller/uninstall.handle! arguments)
+        _          (controller/doc.handle!)))))
 
 port
