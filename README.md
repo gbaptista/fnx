@@ -4,7 +4,7 @@ A package manager for the [Fennel](https://fennel-lang.org/) language.
 
 > _**Disclaimer:** It's an early-stage project, and you should expect breaking changes._
 
-![fspec dep list example](https://raw.githubusercontent.com/gbaptista/assets/main/fnx/fnx-dep-list.png)
+![fspec dep list example](https://raw.githubusercontent.com/gbaptista/assets/main/fnx/readme.png)
 
 - [1-liner Installer](#1-liner-installer)
 - [.fnx.fnl File](#fnxfnl-file)
