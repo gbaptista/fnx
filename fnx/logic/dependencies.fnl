@@ -75,7 +75,10 @@
         (tset dependency.install-from :tag tag)
         (if (not version) (set version tag)))))
 
-  (if version nil (set version "local"))
+  (when (not version)
+    (if (= dependency.install-from.mode :git)
+      (set version "default")
+      (set version "local")))
 
   (tset dependency.install-from :version version)
 

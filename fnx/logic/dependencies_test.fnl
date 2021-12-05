@@ -172,30 +172,30 @@
   (logic.build "/" "/home/.fnx/" {
     :hello-world {:fennel/fnx {:git/url "https://github.com/gbaptista/fnx-hello-world.git"}}})
 
-  [{:cyclic-key "fnx:/home/.fnx/packages/hello-world/local"
-    :dot-fnx-candidate-path "/home/.fnx/packages/hello-world/local/.fnx.fnl"
+  [{:cyclic-key "fnx:/home/.fnx/packages/hello-world/default"
+    :dot-fnx-candidate-path "/home/.fnx/packages/hello-world/default/.fnx.fnl"
     :identifier "hello-world"
     :install-from {:mode "git"
                    :url "https://github.com/gbaptista/fnx-hello-world.git"
-                   :version "local"}
+                   :version "default"}
     :language "fennel"
     :provider "fnx"
-    :usage-path "/home/.fnx/packages/hello-world/local"}])
+    :usage-path "/home/.fnx/packages/hello-world/default"}])
 
 (t.eq
   (logic.build-dependency
     "hello-world" {:fennel/fnx {:git/github "gbaptista/fnx-hello-world"}}
     "/" "/home/.fnx/")
 
-  {:cyclic-key "fnx:/home/.fnx/packages/hello-world/local"
-   :dot-fnx-candidate-path "/home/.fnx/packages/hello-world/local/.fnx.fnl"
+  {:cyclic-key "fnx:/home/.fnx/packages/hello-world/default"
+   :dot-fnx-candidate-path "/home/.fnx/packages/hello-world/default/.fnx.fnl"
    :identifier "hello-world"
    :install-from {:mode "git"
                   :url "https://github.com/gbaptista/fnx-hello-world.git"
-                  :version "local"}
+                  :version "default"}
    :language "fennel"
    :provider "fnx"
-   :usage-path "/home/.fnx/packages/hello-world/local"})
+   :usage-path "/home/.fnx/packages/hello-world/default"})
 
 (t.eq
   (logic.build-dependency
@@ -315,5 +315,42 @@
    :language "fennel"
    :provider "fnx"
    :usage-path "/home/.fnx/packages/hello-world/gb-lorem"})
+
+(t.eq
+  (logic.build-dependency
+    "hello-world"
+    { :fennel/fnx
+        {:git/sourcehut "~gbaptista/fnx-hello-world"}}
+    "/" "/home/.fnx/")
+
+  {:cyclic-key "fnx:/home/.fnx/packages/hello-world/default"
+   :dot-fnx-candidate-path "/home/.fnx/packages/hello-world/default/.fnx.fnl"
+   :identifier "hello-world"
+   :install-from {:mode "git"
+                  :url "https://git.sr.ht/~gbaptista/fnx-hello-world"
+                  :version "default"}
+   :language "fennel"
+   :provider "fnx"
+   :usage-path "/home/.fnx/packages/hello-world/default"})
+
+(t.eq
+  (logic.build-dependency
+    "hello-world"
+    { :fennel/fnx
+        {:git/sourcehut "~gbaptista/fnx-hello-world"
+         :branch "main"}}
+    "/" "/home/.fnx/")
+
+  {:cyclic-key "fnx:/home/.fnx/packages/hello-world/main"
+   :dot-fnx-candidate-path "/home/.fnx/packages/hello-world/main/.fnx.fnl"
+   :identifier "hello-world"
+   :install-from {:branch "main"
+                  :mode "git"
+                  :url "https://git.sr.ht/~gbaptista/fnx-hello-world"
+                  :version "main"}
+   :language "fennel"
+   :provider "fnx"
+   :usage-path "/home/.fnx/packages/hello-world/main"}
+)
 
 (t.run!)
