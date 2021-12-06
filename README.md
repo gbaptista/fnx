@@ -118,7 +118,6 @@ Options for the `fennel install.fnl` command:
 
 A list of things that I don't have time to do or that just aren't itching me enough to do something about it, but I would like to do it someday, eventually:
 
-- [ ] git;
 - [ ] binaries;
 - [ ] `fnx dep add`;
 - [ ] `fnx dep remove`;
