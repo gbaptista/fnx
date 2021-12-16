@@ -54,6 +54,14 @@
     "0.0.2-1"))
 
 (let [show-output
+        (..
+          "\n\ndkjson 2.5-3 - David Kolf's JSON module for Lua\n\n"
+          "        lua >= 5.1, < 5.5 (using 5.4-1)\n")]
+  (t.eq
+    (adapter.show->version show-output)
+    "2.5-3"))
+
+(let [show-output
         (.. "\nError: cannot find package lorem"
             "Use 'list' to find installed rocks.")]
   (t.eq

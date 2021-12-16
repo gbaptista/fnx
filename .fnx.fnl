@@ -1,5 +1,5 @@
 {:name    "fnx"
- :version "0.0.1"
+ :version "0.0.2"
 
  :dependencies {
    :luafilesystem {:lua/rock     ">= 1.8.0"}

@@ -2,7 +2,10 @@
 
 (fn adapter.show->version [raw]
   (let [version (string.match raw "%d+%.%d+.%d+%-%d")]
-    (if version version false)))
+    (if version
+      version
+      (let [version (string.match raw "%d+%.%d+%-%d")]
+        (if version version false)))))
 
 (fn adapter.dependency->show [dependency arguments]
   (if (and (. arguments :present) (. arguments.present :--global))
