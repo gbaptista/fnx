@@ -25,11 +25,9 @@
     (local setup-config
       (controller/setup.ensure-config! {
         :install-from-path      (.. (component/io.current-directory) "/")
-        :fnx-binary-path        "/usr/local/bin/fnx"
-        :fnx-config-file-path   (.. (or (os.getenv "XDG_CONFIG_HOME")
-                                        (.. (os.getenv "HOME") "/.config")) "/fnx/config.fnl")
-        :fnx-data-directory     (.. (or (os.getenv "XDG_DATA_HOME")
-                                        (.. (os.getenv "HOME") "/.local/share")) "/fnx/")}
+        :fnx-binary-path        (.. (component/io.directory-for :executable) "/fnx")
+        :fnx-config-file-path   (.. (component/io.directory-for :config) "/.fnx.config.fnl")
+        :fnx-data-directory     (.. (component/io.directory-for :data) "/.fnx/")}
         arguments))
 
     (controller/setup.double-check! setup-config arguments)

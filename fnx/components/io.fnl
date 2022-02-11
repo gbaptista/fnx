@@ -2,6 +2,22 @@
 
 (local lfs (require :lfs))
 
+(fn component.directory-for [purpose]
+  (match purpose
+    :data       (component.build-directory "XDG_DATA_HOME" "/.local/share")
+    :config     (component.build-directory "XDG_CONFIG_HOME" "/.config")
+    :executable (component.build-directory nil "/.local/bin")))
+
+(fn component.build-directory [env-var default]
+  (or
+    (when env-var (os.getenv env-var))
+    (.. (component.home-directory) default)))
+
+(fn component.home-directory []
+  (or
+    (os.getenv "HOME")
+    (string.gsub (component.os-output "echo ~") "\n" "")))
+
 (fn component.os-output [command]
   (let [pipe    (io.popen command)
         output  (pipe:read "*a")]
@@ -9,7 +25,6 @@
 
 (fn component.os [command]
   (os.execute command))
-
 
 (fn component.ensure-directory [path]
   (os.execute (.. "mkdir -p " path)))
