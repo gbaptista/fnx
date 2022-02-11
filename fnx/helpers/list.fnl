@@ -1,5 +1,9 @@
 (local helper {})
 
+(fn helper.unpack [...]
+  (let [unpack-fn (or (. table :unpack) (. _G :unpack))]
+    (unpack-fn ...)))
+
 (fn helper.insert-between [f-before f-after to-insert list]
   (local result list)
   (var done false)

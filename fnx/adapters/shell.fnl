@@ -5,7 +5,7 @@
 (fn adapter.smk->string [smk]
   (local lines [])
   (each [_ item (pairs smk)]
-    (let [(kind content) (table.unpack item)]
+    (let [(kind content) (helper/list.unpack item)]
       (match kind
         :line     (table.insert lines (adapter.item->string (adapter.build-item content)))
         :fragment (table.insert lines (adapter.item->string (adapter.build-item content)))
