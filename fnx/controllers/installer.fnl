@@ -25,9 +25,9 @@
     (local setup-config
       (controller/setup.ensure-config! {
         :install-from-path      (.. (component/io.current-directory) "/")
-        :fnx-binary-path        "/usr/local/bin/fnx"
-        :fnx-config-file-path   (.. (string.gsub (component/io.os-output "echo ~") "\n" "") "/.fnx/.fnx.config.fnl")
-        :fnx-data-directory (.. (string.gsub (component/io.os-output "echo ~") "\n" "") "/.fnx/")}
+        :fnx-binary-path        (.. (component/io.directory-for :executable) "/fnx")
+        :fnx-config-file-path   (.. (component/io.directory-for :config) "/.fnx.config.fnl")
+        :fnx-data-directory     (.. (component/io.directory-for :data) "/.fnx/")}
         arguments))
 
     (controller/setup.double-check! setup-config arguments)
