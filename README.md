@@ -9,16 +9,18 @@ A package manager for the [Fennel](https://fennel-lang.org/) language.
 - [1-liner Installer](#1-liner-installer)
 - [.fnx.fnl File](#fnxfnl-file)
 - [Usage](#usage)
+- [Embedding](#embedding)
 - [Installing](#installing)
   - [Options](#installation-options)
   - [Requirements](#requirements)
+- [Performance](#performance)
 - [Not a Roadmap](#not-a-roadmap)
 
 ## 1-liner Installer
 
 You need to have all [requirements](#requirements) first.
 
-```
+```sh
 curl -fsSL https://raw.githubusercontent.com/gbaptista/fnx/main/get-fnx.sh -o get-fnx.sh && sh get-fnx.sh
 ```
 
@@ -39,16 +41,16 @@ Example:
 
    :splah         {:fennel/fnx {:path "/home/splah"}}
 
-   :radioactive   {:fennel/fnx {:git/url "https://git.sr.ht/~gbaptista/radioactive"}}
-   :fireball      {:fennel/fnx {:git/url "https://github.com/gbaptista/fireball.git"}}
+   :radioactive   {:fennel/fnx {:git/url "https://git.sr.ht/~me/radioactive"}}
+   :fireball      {:fennel/fnx {:git/url "https://github.com/me/fireball.git"}}
 
-   :moonlight     {:fennel/fnx {:git/sourcehut "~gbaptista/moonlight" :commit "a6c728b"}}
+   :moonlight     {:fennel/fnx {:git/sourcehut "~me/moonlight" :commit "a6c728b"}}
 
-   :meteor        {:fennel/fnx {:git/sourcehut "~gbaptista/meteor" :branch "main"}}
+   :meteor        {:fennel/fnx {:git/sourcehut "~me/meteor" :branch "main"}}
 
-   :jellyfish     {:fennel/fnx {:git/sourcehut "~gbaptista/jellyfish" :tag "v0.0.1"}}
+   :jellyfish     {:fennel/fnx {:git/sourcehut "~me/jellyfish" :tag "v0.0.1"}}
 
-   :purple-rain   {:fennel/fnx {:git/github "gbaptista/purple-rain"}}
+   :purple-rain   {:fennel/fnx {:git/github "me/purple-rain"}}
 
    :dkjson        {:lua/rock ">= 2.5"}}}
 ```
@@ -72,10 +74,57 @@ Start by creating a [.fnx.fnl](#fnxfnl-file) file for your project.
 | `fnx version` | It returns the `fnx` version. |
 | `fnx config` | It returns the current `fnx` configuration. |
 | `fnx debug` | It returns `fnx` injections for the current directory. |
+| `fnx env` | Generates environment variables exports to make `fnx` embeddable. |
 | `fnx dep` | Dependencies Manager CLI. It lists the available `fnx dep` commands. Its commands accept `--global` and `--local` for `luarocks`. The default is `--local`. |
 | `fnx dep install` | Install the dependencies described in the `.fnx.fnl` file. Use `-f` to force the re-installation of all dependencies. Use `--verbose` for verbose mode. |
 | `fnx dep uninstall` | Uninstall the dependencies described in the `.fnx.fnl` file. Use `-f` to skip confirmation. Use `--verbose` for verbose mode. |
 | `fnx dep list` | It lists the dependencies described in the `.fnx.fnl` file. |
+
+## Embedding
+
+As is usual for Lua, you may want to embed Fennel into another language, e.g., [_Sweet Moon_](https://github.com/gbaptista/sweet-moon). In this scenario, you wouldn't have direct access to the `fnx` terminal command.
+
+So, you can run `fnx env` to generate the necessary environment variables:
+```shell
+fnx env
+
+export FENNEL_PATH=/home/me/.local/share/.fnx/core/?.fnl
+export FNX_DATA_DIRECTORY=/home/me/.local/share/.fnx/
+```
+
+To actual export the variables, you can use:
+```sh
+eval "$(fnx env)"
+```
+
+You can also add the above line to your `.bashrc`, `.zshrc`, etc.
+
+Then, in your embedded script, you can add:
+```fennel
+(local fnx (require :fnx))
+
+(fnx.bootstrap!)
+```
+
+It automatically injects all your dependencies according to your `.fnx.fnl` file, similar to using the `fnx` command.
+
+You may want to set a specific path to the `.fnx.fnl`:
+
+```fennel
+(local fnx (require :fnx))
+
+(fnx.bootstrap! "/home/me/project/.fnx.fnl")
+```
+
+Alternative code, for isolation:
+```fennel
+(let [fnx (require :fnx)] (fnx.bootstrap!))
+```
+
+Or, for short:
+```fennel
+((. (require :fnx) :bootstrap!))
+```
 
 ## Installing
 
@@ -110,7 +159,26 @@ Options for the `fennel run/install.fnl` command:
 - [LuaRocks](https://github.com/luarocks/luarocks/wiki/Download)
 - [Git](https://git-scm.com/)
 - [Unix](https://en.wikipedia.org/wiki/Unix)
-  - [`sh`](https://en.wikipedia.org/wiki/Bourne_shell) [`chmod`](https://en.wikipedia.org/wiki/Chmod) `cp` `ln` `mkdir` `rm`
+  - [`sh`](https://en.wikipedia.org/wiki/Bourne_shell) [`chmod`](https://en.wikipedia.org/wiki/Chmod) `cp` `ln` `ls` `mkdir` `rm`
+
+### Performance
+
+You might not be happy with the performance of the `fnx` command compared to  `fennel`.
+
+Alternatively, to continue keep using the `fennel` command, you can do the same configuration used for [embedding](#embedding):
+
+Export the enviroment variables:
+```sh
+eval "$(fnx env)"
+```
+
+Add into your entrypoint source code:
+
+```fennel
+(let [fnx (require :fnx)] (fnx.bootstrap!))
+```
+
+Done. Just run `fennel entrypoint.fnl` as usual instead of `fnx entrypoint.fnl`.
 
 ### Not a Roadmap
 
