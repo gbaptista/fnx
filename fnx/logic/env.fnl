@@ -4,10 +4,7 @@
 
 (fn logic.build [config ?fennel-path]
   (let [fennel-path (or ?fennel-path "")]
-    (local variables [])
-    (each [key value (pairs config)]
-      (let [key (-> (string.gsub key "-" "_") (string.upper))]
-        (table.insert variables (.. key "=" value))))
+    (local variables [(.. "FNX_DATA_DIRECTORY=" (. config :fnx-data-directory))])
     (table.insert
       variables
       (if (or (= fennel-path "") (= (string.sub fennel-path -1) ";"))

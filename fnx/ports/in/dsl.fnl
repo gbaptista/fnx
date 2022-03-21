@@ -1,3 +1,7 @@
 (local controller (require :fnx.controllers.bootstrap))
 
-{ :bootstrap! controller.handle! }
+(local port {})
+
+(fn port.bootstrap! [?main-dot-fnx-path] (controller.handle! ?main-dot-fnx-path))
+
+port
