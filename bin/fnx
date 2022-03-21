@@ -12,7 +12,7 @@ SHOULD_TRAP=$(FNX_BINARY_PATH=$FNX_BINARY_PATH \
                 FNX_DATA_DIRECTORY=$FNX_DATA_DIRECTORY \
                 FNX_CORE_MODE=$FNX_CORE_MODE \
                 FNX_CORE_PATH=$FNX_CORE_PATH \
-                fennel --add-fennel-path $FNX_CORE_PATH/?.fnl $FNX_CORE_PATH/cli.fnl trap "$@")
+                fennel --add-fennel-path $FNX_CORE_PATH/?.fnl $FNX_CORE_PATH/run/cli.fnl trap "$@")
 
 if [ "$SHOULD_TRAP" == "t" ]; then
   FNX_BINARY_PATH=$FNX_BINARY_PATH \
@@ -20,7 +20,7 @@ if [ "$SHOULD_TRAP" == "t" ]; then
     FNX_DATA_DIRECTORY=$FNX_DATA_DIRECTORY \
     FNX_CORE_MODE=$FNX_CORE_MODE \
     FNX_CORE_PATH=$FNX_CORE_PATH \
-    fennel --add-fennel-path $FNX_CORE_PATH/?.fnl $FNX_CORE_PATH/cli.fnl "$@"
+    fennel --add-fennel-path $FNX_CORE_PATH/?.fnl $FNX_CORE_PATH/run/cli.fnl "$@"
 else
   FNX_BINARY_PATH=$FNX_BINARY_PATH \
     FNX_CONFIG_FILE_PATH=$FNX_CONFIG_FILE_PATH \
@@ -32,5 +32,5 @@ else
       FNX_CONFIG_FILE_PATH=$FNX_CONFIG_FILE_PATH \
       FNX_DATA_DIRECTORY=$FNX_DATA_DIRECTORY \
       FNX_CORE_MODE=$FNX_CORE_MODE \
-      FNX_CORE_PATH=$FNX_CORE_PATH fennel --add-fennel-path $FNX_CORE_PATH/?.fnl $FNX_CORE_PATH/cli.fnl inject "$@") "$@"
+      FNX_CORE_PATH=$FNX_CORE_PATH fennel --add-fennel-path $FNX_CORE_PATH/?.fnl $FNX_CORE_PATH/run/cli.fnl inject "$@") "$@"
 fi
