@@ -50,8 +50,7 @@ Example:
 
    :purple-rain   {:fennel/fnx {:git/github "gbaptista/purple-rain"}}
 
-   :dkjson        {:lua/rock ">= 2.5"}
-   :luafilesystem {:lua/rock ">= 1.8.0"}}}
+   :dkjson        {:lua/rock ">= 2.5"}}}
 ```
 
 | key | description |
@@ -89,15 +88,14 @@ git clone git@github.com:gbaptista/fnx.git
 
 cd fnx
 
-luarocks install luafilesystem --local
 luarocks install supernova --local
 
-fennel install.fnl
+fennel run/install.fnl
 ```
 
 ### Installation Options
 
-Options for the `fennel install.fnl` command:
+Options for the `fennel run/install.fnl` command:
 
 | option | description |
 |--------|-------------|
