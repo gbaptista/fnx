@@ -1,6 +1,6 @@
-(local component [])
+(local helper/string (require :fnx.helpers.string))
 
-(local lfs (require :lfs))
+(local component [])
 
 (fn component.directory-for [purpose]
   (match purpose
@@ -30,11 +30,11 @@
   (os.execute (.. "mkdir -p " path)))
 
 (fn component.current-directory [command]
-  (lfs.currentdir))
+  (helper/string.strip (component.os-output "pwd")))
 
 (fn component.exists? [file-path]
-  (let [details (lfs.attributes file-path)]
-    (if details true false)))
+  (if (= (component.os-output (.. "ls " file-path " 2>/dev/null")) "")
+    false true))
 
 (fn component.read [file-path]
   (match (io.open file-path)
