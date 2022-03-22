@@ -165,9 +165,9 @@ Options for the `fennel run/install.fnl` command:
 
 You might not be happy with the performance of the `fnx` command compared to  `fennel`.
 
-Alternatively, to continue keep using the `fennel` command, you can do the same configuration used for [embedding](#embedding):
+Alternatively, to keep using the `fennel` command, you can do the same configuration used for [embedding](#embedding):
 
-Export the enviroment variables:
+Export the environment variables:
 ```sh
 eval "$(fnx env)"
 ```
