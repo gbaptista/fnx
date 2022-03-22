@@ -7,16 +7,16 @@
     [{:identifier "demo"
       :language "lua"
       :provider "local"
-      :usage-path "/home/gbaptista/personal/projects/lua-demo"}
+      :usage-path "/home/me/personal/projects/lua-demo"}
      {:identifier "fspec"
       :language "fennel"
       :provider "local"
-      :usage-path "/home/gbaptista/personal/projects/amplifier-project/fspec"}
+      :usage-path "/home/me/personal/projects/amplifier-project/fspec"}
      {:identifier "fspec2"
       :install-from {:mode "local" :path "../fspec"}
       :language "fennel"
       :provider "fnx"
-      :usage-path "/home/gbaptista/.fnx/packages/fspec2/local"}
+      :usage-path "/home/me/.fnx/packages/fspec2/local"}
      {:identifier "inspect"
       :install-from {:mode "luarocks" :version ">= 3.1.2"}
       :language "lua"
@@ -24,8 +24,8 @@
      {:identifier "inv2"
       :language "lua"
       :provider "local"
-      :usage-path "/home/gbaptista/personal/projects/lorem"}
-     {:identifier "luafilesystem"
+      :usage-path "/home/me/personal/projects/lorem"}
+     {:identifier "luafs"
       :install-from {:mode "luarocks" :version ">= 1.8.0"}
       :language "lua"
       :provider "rock"}
@@ -38,16 +38,16 @@
      :fspec2 false
      :inspect false
      :inv2 false
-     :luafilesystem "1.8.0-1"
+     :luafs "1.8.0-1"
      :supernova "0.0.2-1"})
   [{:available? true
-    :expected "/home/gbaptista/personal/projects/lua-demo"
+    :expected "/home/me/personal/projects/lua-demo"
     :identifier "demo"
     :installable? false
     :language "lua"
     :state "ok"}
    {:available? true
-    :expected "/home/gbaptista/personal/projects/amplifier-project/fspec"
+    :expected "/home/me/personal/projects/amplifier-project/fspec"
     :identifier "fspec"
     :installable? false
     :language "fennel"
@@ -65,14 +65,14 @@
     :language "lua"
     :state "missing"}
    {:available? false
-    :expected "/home/gbaptista/personal/projects/lorem"
+    :expected "/home/me/personal/projects/lorem"
     :identifier "inv2"
     :installable? false
     :language "lua"
     :state "missing"}
    {:available? true
     :expected ">= 1.8.0"
-    :identifier "luafilesystem"
+    :identifier "luafs"
     :installable? true
     :language "lua"
     :state "1.8.0-1"}

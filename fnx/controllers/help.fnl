@@ -16,6 +16,7 @@
        [:line "  fnx dep"]
        [:line "  fnx config"]
        [:line "  fnx debug [file.fnl]"]
+       [:line "  fnx env"]
        [:line ""]])))
 
 controller

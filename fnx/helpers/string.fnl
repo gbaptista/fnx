@@ -2,6 +2,9 @@
 
 (local helper {})
 
+(fn helper.strip [input]
+  (tostring (string.gsub input "\n" "")))
+
 (fn helper.strip-dash [input]
   (tostring (string.gsub input "^-+" "")))
 
