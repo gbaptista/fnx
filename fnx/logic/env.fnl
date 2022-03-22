@@ -7,9 +7,9 @@
     (local variables [(.. "FNX_DATA_DIRECTORY=" (. config :fnx-data-directory))])
     (table.insert
       variables
-      (if (or (= fennel-path "") (= (string.sub fennel-path -1) ";"))
-        (.. "FENNEL_PATH=" fennel-path (. config :fnx-core-path) "?.fnl")
-        (.. "FENNEL_PATH=" fennel-path ";" (. config :fnx-core-path) "?.fnl")))
+      (if (or (= fennel-path "") (= (string.sub fennel-path 1 1) ";"))
+        (.. "FENNEL_PATH=" (. config :fnx-core-path) "?.fnl" fennel-path)
+        (.. "FENNEL_PATH=" (. config :fnx-core-path) "?.fnl" ";" fennel-path)))
     (helper/list.sort variables)))
 
 logic

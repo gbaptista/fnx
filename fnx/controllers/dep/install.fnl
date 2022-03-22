@@ -74,6 +74,25 @@
         (port/shell-out.dispatch!
           (logic/smk.line
             (.. "Sorry. I don't know how to install: "
-                (sn.red dependency.identifier)))))))
+                (sn.red dependency.identifier)))))
+    (controller.check-installation! dependency arguments)))
+
+(fn controller.check-installation! [dependency arguments]
+  (local fennel (require :fennel))
+  (let [state     (controller/dependencies.retrieve-state! [dependency] arguments)
+        installed (. state dependency.identifier)]
+    (if installed
+      (port/shell-out.dispatch!
+         (logic/smk.line (sn.green " done!")))
+      (do
+        (port/shell-out.dispatch! (logic/smk.line (sn.red " error")))
+        (when (not (. arguments.present :--verbose))
+          (port/shell-out.dispatch!
+            [[:line ""]
+             [:line (..
+                      "How about trying the verbose mode? "
+                      (sn.yellow "--verbose"))]]))
+        (port/shell-out.dispatch! (logic/smk.line))
+        (error "installation failed")))))
 
 controller

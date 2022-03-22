@@ -64,12 +64,7 @@
         (port/shell-out.dispatch!
           (logic/smk.fragment (sn.yellow "...")))
         (each [_ command (pairs commands)]
-          (component/io.os (.. command "&>/dev/null")))
-        (port/shell-out.dispatch!
-          (logic/smk.fragment " "))))
-
-    (port/shell-out.dispatch!
-      (logic/smk.fragment (.. (sn.green "done!") "\n")))))
+          (component/io.os (.. command "&>/dev/null")))))))
 
 (fn controller.install-local [dependency arguments]
   (let [from-path dependency.install-from.path
@@ -95,9 +90,6 @@
 
     (if (not (. arguments.present :--verbose))
       (port/shell-out.dispatch!
-        (logic/smk.fragment (sn.yellow "."))))
-
-    (port/shell-out.dispatch!
-      (logic/smk.fragment (.. " " (sn.green "done!") "\n")))))
+        (logic/smk.fragment (sn.yellow "."))))))
 
 controller

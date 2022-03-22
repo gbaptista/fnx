@@ -19,15 +19,13 @@
               " "
               dependency.identifier)]
       (port/shell-out.dispatch!
-        (logic/smk.fragment (.. "Installing " (sn.blue dependency.identifier) "... ")))
+        (logic/smk.fragment (.. "Installing " (sn.blue dependency.identifier) "...")))
 
       (if (. arguments.present :--verbose)
         (do
           (port/shell-out.dispatch! (logic/smk.line "\n"))
           (component/io.os command))
         (do
-          (component/io.os-output command))
-          (port/shell-out.dispatch!
-            (logic/smk.fragment (.. (sn.green "done!") "\n")))))))
+          (component/io.os-output command))))))
 
 controller

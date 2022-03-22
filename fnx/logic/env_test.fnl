@@ -12,4 +12,28 @@
   ["FENNEL_PATH=/home/me/.local/share/.fnx/core/?.fnl"
    "FNX_DATA_DIRECTORY=/home/me/.local/share/.fnx/"])
 
+(t.eq
+  (logic.build
+     {:fnx-core-path "/home/me/.local/share/.fnx/core/"
+      :fnx-data-directory "/home/me/.local/share/.fnx/"}
+     "./?.fnl;./?/init.fnl")
+  ["FENNEL_PATH=/home/me/.local/share/.fnx/core/?.fnl;./?.fnl;./?/init.fnl"
+   "FNX_DATA_DIRECTORY=/home/me/.local/share/.fnx/"])
+
+(t.eq
+  (logic.build
+     {:fnx-core-path "/home/me/.local/share/.fnx/core/"
+      :fnx-data-directory "/home/me/.local/share/.fnx/"}
+     "./?.fnl;./?/init.fnl;")
+  ["FENNEL_PATH=/home/me/.local/share/.fnx/core/?.fnl;./?.fnl;./?/init.fnl;"
+   "FNX_DATA_DIRECTORY=/home/me/.local/share/.fnx/"])
+
+(t.eq
+  (logic.build
+     {:fnx-core-path "/home/me/.local/share/.fnx/core/"
+      :fnx-data-directory "/home/me/.local/share/.fnx/"}
+     ";./?.fnl;./?/init.fnl")
+  ["FENNEL_PATH=/home/me/.local/share/.fnx/core/?.fnl;./?.fnl;./?/init.fnl"
+   "FNX_DATA_DIRECTORY=/home/me/.local/share/.fnx/"])
+
 (t.run!)
