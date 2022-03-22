@@ -14,6 +14,7 @@ A package manager for the [Fennel](https://fennel-lang.org/) language.
   - [Options](#installation-options)
   - [Requirements](#requirements)
 - [Performance](#performance)
+- [Development](#development)
 - [Not a Roadmap](#not-a-roadmap)
 
 ## 1-liner Installer
@@ -178,7 +179,14 @@ Add into your entrypoint source code:
 (let [fnx (require :fnx)] (fnx.bootstrap!))
 ```
 
-Done. Just run `fennel entrypoint.fnl` as usual instead of `fnx entrypoint.fnl`.
+Done. Just run `fennel source.fnl` as usual instead of `fnx source.fnl`.
+
+### Development
+
+```
+fnx dep install
+fnx run/test.fnl
+```
 
 ### Not a Roadmap
 
