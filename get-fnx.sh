@@ -3,7 +3,7 @@ rm -rf fnx
 git clone \
   -c advice.detachedHead=false \
   --depth 1 \
-  --branch v0.1.1 \
+  --branch v0.1.2 \
   git@github.com:gbaptista/fnx.git
 
 cd fnx
