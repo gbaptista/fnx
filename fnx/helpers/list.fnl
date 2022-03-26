@@ -116,7 +116,7 @@
 
 (fn helper.concat [...]
   (let [result []]
-    (each [_ list (ipairs (table.pack ...))]
+    (each [_ list (ipairs (helper.pack ...))]
       (each [_ value (pairs list)] (table.insert result value)))
     result))
 
