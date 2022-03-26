@@ -65,15 +65,16 @@
 
 (fn controller.install! [dependencies cyclic-control arguments]
   (each [_ dependency (pairs dependencies)]
-    (match [dependency.language dependency.provider]
-      [:fennel :fnx]  (controller/fnx.install dependency cyclic-control arguments)
-      [:lua    :rock] (controller/rock.install dependency cyclic-control arguments)
-      _
-        (port/shell-out.dispatch!
-          (logic/smk.line
-            (.. "Sorry. I don't know how to install: "
-                (sn.red dependency.identifier)))))
-    (controller.check-installation! dependency arguments)))
+    (when (not (. cyclic-control dependency.cyclic-key))
+      (match [dependency.language dependency.provider]
+        [:fennel :fnx]  (controller/fnx.install dependency cyclic-control arguments)
+        [:lua    :rock] (controller/rock.install dependency cyclic-control arguments)
+        _
+          (port/shell-out.dispatch!
+            (logic/smk.line
+              (.. "Sorry. I don't know how to install: "
+                  (sn.red dependency.identifier)))))
+      (controller.check-installation! dependency arguments))))
 
 (fn controller.check-installation! [dependency arguments]
   (local fennel (require :fennel))
