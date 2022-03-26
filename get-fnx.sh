@@ -1,4 +1,10 @@
-git clone git@github.com:gbaptista/fnx.git
+rm -rf fnx
+
+git clone \
+  -c advice.detachedHead=false \
+  --depth 1 \
+  --branch v0.0.3 \
+  git@github.com:gbaptista/fnx.git
 
 cd fnx
 
