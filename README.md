@@ -54,6 +54,8 @@ Example:
    :jellyfish     {:fennel/fnx {:git/sourcehut "~me/jellyfish" :tag "v0.0.1"}}
 
    :purple-rain   {:fennel/fnx {:git/github "me/purple-rain"}}
+   :red-sauce     {:fennel/fnx {:git/gitlab "me/red-sauce"}}
+   :lemon         {:fennel/fnx {:git/bitbucket "me/lemon"}}
 
    :dkjson        {:lua/rock ">= 2.5"}}}
 ```
