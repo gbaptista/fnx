@@ -61,7 +61,8 @@
          (tset dependency
            :install-from
            { :mode :local
-             :path (helper/path.expand working-directory (. configuration :path))})))
+             :path (helper/path.expand working-directory (. configuration :path))}))
+     _ (error (.. "invalid format for dependency \"" identifier "\"")))
   
   (var version nil)
 
@@ -97,6 +98,10 @@
 (fn logic.build-dependency [identifier configuration working-directory fnx-data-directory]
   (local dependency { :identifier identifier })
   (each [strategy configuration (pairs configuration)]
+
+    (if (not (string.find strategy "/"))
+      (error (.. "invalid key for dependency \"" identifier "\": \"" strategy "\"")))
+
     (let [parts (helper/string.split "/" strategy)
           language (. parts 1)
           provider (. parts 2)]
@@ -105,7 +110,8 @@
       (match provider
         :local (tset dependency :usage-path (helper/path.expand working-directory configuration))
         :rock  (tset dependency :install-from { :mode :luarocks :version configuration })
-        :fnx   (logic.build-fnx dependency identifier configuration working-directory fnx-data-directory))))
+        :fnx   (logic.build-fnx dependency identifier configuration working-directory fnx-data-directory)
+        _      (error (.. "invalid provider \"" provider "\" for \"" identifier "\": \"" strategy "\"")))))
 
   (match dependency.provider
     :fnx   (tset dependency :cyclic-key (.. "fnx:" dependency.usage-path))

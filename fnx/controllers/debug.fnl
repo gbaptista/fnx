@@ -1,6 +1,8 @@
 (local sn (require :supernova))
 (local port/shell-out (require :fnx.ports.out.shell))
 
+(local component/io (require :fnx.components.io))
+
 (local controller/injection (require :fnx.controllers.injection))
 (local controller/bootstrap (require :fnx.controllers.dsl.bootstrap))
 
@@ -12,9 +14,21 @@
 (local controller {})
 
 (fn controller.handle! [arguments]
+  (controller.dot-fnx!)
   (if (or (. arguments.present :-b))
     (controller.debug-bootstrap! arguments)
     (controller.debug-injections! arguments)))
+
+(fn controller.dot-fnx! []
+  (let [working-directory (component/io.current-directory)
+        dot-fnx-path      (.. working-directory "/.fnx.fnl")]
+    (if (component/io.exists? dot-fnx-path)
+      (port/shell-out.dispatch!
+        [[:line (sn.yellow dot-fnx-path)]
+         [:line ""]])
+      (port/shell-out.dispatch!
+        (logic/smk.line
+          (sn.red "Could not locate .fnx.fnl"))))))
 
 (fn controller.debug-injections! [arguments]
   (let [injections (controller/injection.build-injections! arguments)]

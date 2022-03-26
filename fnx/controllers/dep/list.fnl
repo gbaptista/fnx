@@ -11,7 +11,6 @@
   (let [{:core-fnx core-fnx
          :to-list       to-list}
           (controller/dependencies.load-data! arguments)]
-
     (port/shell-out.dispatch!
       [[:line  (logic/version.display core-fnx.version) ]
        [:line  ""]

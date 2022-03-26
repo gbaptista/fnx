@@ -5,9 +5,12 @@
 (local model {})
 
 (fn model.load [path]
-  (->>
-    path
-    (component/io.read)
-    (helper/fennel.string->data)))
+  (let [data (->>
+              path
+              (component/io.read)
+              (helper/fennel.string->data))]
+    (when (not (. data :dependencies))
+      (tset data :dependencies {}))
+    data))
 
 model
