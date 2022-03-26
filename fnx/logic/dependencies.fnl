@@ -20,6 +20,8 @@
   (when (. configuration :path)          (set mode :path))
   (when (. configuration :git/url)       (set mode :git/url))
   (when (. configuration :git/github)    (set mode :git/github))
+  (when (. configuration :git/gitlab)    (set mode :git/gitlab))
+  (when (. configuration :git/bitbucket) (set mode :git/bitbucket))
   (when (. configuration :git/sourcehut) (set mode :git/sourcehut))
 
   (match mode
@@ -31,12 +33,24 @@
          :install-from
          { :mode :git
            :url (.. "https://github.com/" (. configuration :git/github) ".git")})
+     :git/gitlab
+       (tset
+         dependency
+         :install-from
+         { :mode :git
+           :url (.. "https://gitlab.com/" (. configuration :git/gitlab) ".git")})
+     :git/bitbucket
+       (tset
+         dependency
+         :install-from
+         { :mode :git
+           :url (.. "https://bitbucket.org/" (. configuration :git/bitbucket) ".git")})
      :git/sourcehut
        (tset
          dependency
          :install-from
          { :mode :git
-           :url (.. "https://git.sr.ht/" (. configuration :git/sourcehut))})
+           :url (.. "https://git.sr.ht/~" (string.gsub (. configuration :git/sourcehut) "^~" ""))})
      :path
        (do
          (if (not (string.match (. configuration :path) "^%/"))
