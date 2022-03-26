@@ -14,6 +14,8 @@ A package manager for the [Fennel](https://fennel-lang.org/) language.
   - [Options](#installation-options)
   - [Requirements](#requirements)
 - [Performance](#performance)
+- [Debugging](#debugging)
+  - [Inside Fennel](#inside-fennel)
 - [Development](#development)
 - [Not a Roadmap](#not-a-roadmap)
 
@@ -74,8 +76,8 @@ Start by creating a [.fnx.fnl](#fnxfnl-file) file for your project.
 | `fnx help` | List the available `fnx` commands. |
 | `fnx version` | It returns the `fnx` version. |
 | `fnx config` | It returns the current `fnx` configuration. |
-| `fnx debug` | It returns `fnx` injections for the current directory. |
-| `fnx env` | Generates environment variables exports to make `fnx` embeddable. |
+| `fnx debug` | It returns `fnx` injections for the current directory or file. Use `-b` if you are [embedding](#embedding). |
+| `fnx env` | Generates environment variables exports to make `fnx` [embeddable](#embedding). |
 | `fnx dep` | Dependencies Manager CLI. It lists the available `fnx dep` commands. Its commands accept `--global` and `--local` for `luarocks`. The default is `--local`. |
 | `fnx dep install` | Install the dependencies described in the `.fnx.fnl` file. Use `-f` to force the re-installation of all dependencies. Use `--verbose` for verbose mode. |
 | `fnx dep uninstall` | Uninstall the dependencies described in the `.fnx.fnl` file. Use `-f` to skip confirmation. Use `--verbose` for verbose mode. |
@@ -127,6 +129,8 @@ Or, for short:
 ((. (require :fnx) :bootstrap!))
 ```
 
+If you need debugging, check [this](#inside-fennel).
+
 ## Installing
 
 You need to have all [requirements](#requirements) first.
@@ -155,8 +159,8 @@ Options for the `fennel run/install.fnl` command:
 
 ### Requirements
 
-- [Lua](https://www.lua.org/download.html)
-- [Fennel](https://fennel-lang.org/setup#downloading-fennel)
+- [Lua](https://www.lua.org/download.html) `5.1` or later.
+- [Fennel](https://fennel-lang.org/setup#downloading-fennel) `1.0.0` or later.
 - [LuaRocks](https://github.com/luarocks/luarocks/wiki/Download)
 - [Git](https://git-scm.com/)
 - [Unix](https://en.wikipedia.org/wiki/Unix)
@@ -180,6 +184,98 @@ Add into your entrypoint source code:
 ```
 
 Done. Just run `fennel source.fnl` as usual instead of `fnx source.fnl`.
+
+### Debugging
+
+You can run `fnx debug` to understand what exactly is being injected:
+```sh
+fnx debug
+```
+
+```
+fspec
+
+--add-package-path /.local/share/.fnx/packages/fspec/default/fspec/?.lua      
+--add-package-path /.local/share/.fnx/packages/fspec/default/?/init.lua       
+                                                                                             
+ --add-fennel-path /.local/share/.fnx/packages/fspec/default/fspec/?.fnl      
+ --add-fennel-path /.local/share/.fnx/packages/fspec/default/?/init.fnl       
+                                                                                             
+  --add-macro-path /.local/share/.fnx/packages/fspec/default/fspec/?.fnl      
+  --add-macro-path /.local/share/.fnx/packages/fspec/default/?/init-macros.fnl
+  --add-macro-path /.local/share/.fnx/packages/fspec/default/?/init.fnl 
+```
+
+If you are [embedding](#embedding), you can run:
+
+```sh
+fnx debug -b
+```
+
+```
+fspec fspec
+
+     package.path /.local/share/.fnx/packages/fspec/default/fspec/?.lua      
+     package.path /.local/share/.fnx/packages/fspec/default/?/init.lua       
+                                                                                            
+      fennel.path /.local/share/.fnx/packages/fspec/default/fspec/?.fnl      
+      fennel.path /.local/share/.fnx/packages/fspec/default/?/init.fnl       
+                                                                                            
+fennel.macro-path /.local/share/.fnx/packages/fspec/default/fspec/?.fnl      
+fennel.macro-path /.local/share/.fnx/packages/fspec/default/?/init-macros.fnl
+fennel.macro-path /.local/share/.fnx/packages/fspec/default/?/init.fnl
+```
+
+#### Inside Fennel
+
+> **Warning:** The `debug` namespace is for debugging only purposes. Its API is unstable and may change anytime. Please don't use it in a way that your project depends on it.
+
+To debug inside Fennel, you need first to ensure that your environment is ready for [embedding](#embedding).
+
+Then, you can use the `debug` namespace:
+
+```fnl
+(local fnx (require :fnx))
+
+(local fennel (require :fennel))
+
+(print (fennel.view (fnx.debug.injections)))
+; [{:destination "package.path"
+;   :package "fspec"
+;   :path "/home/me/.local/share/.fnx/packages/fspec/default/fspec/?.lua"}
+;  {:destination "package.path"
+;   :package "fspec"
+;   :path "/home/me/.local/share/.fnx/packages/fspec/default/?/init.lua"}
+;  {:destination "fennel.path"
+;   :package "fspec"
+;   :path "/home/me/.local/share/.fnx/packages/fspec/default/fspec/?.fnl"}
+;   ...
+
+(print (fennel.view (fnx.debug.packages)))
+; [{:package "fspec"     :language "fennel"}
+;  {:package "supernova" :language "lua"}]
+
+(print (fennel.view (fnx.debug.dot-fnx-path)))
+; "/home/me/my-project/.fnx.fnl"
+
+(fnx.bootstrap!)
+```
+
+If you are using a custom `.fnx.fnl` file:
+
+```fnl
+(local fnx (require :fnx))
+
+(local custom-dot-fnx "/home/me/some-project/.fnx.fnl")
+
+(fnx.debug.injections custom-dot-fnx)
+
+(fnx.debug.packages custom-dot-fnx)
+
+(fnx.debug.dot-fnx-path custom-dot-fnx)
+
+(fnx.bootstrap! custom-dot-fnx)
+```
 
 ### Development
 

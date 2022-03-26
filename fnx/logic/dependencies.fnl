@@ -14,14 +14,6 @@
   (helper/list.sort-by :identifier result)
   result)
 
-{:cyclic-key "fnx:/home/.fnx/packages/package-a/local"
- :dot-fnx-candidate-path "/home/.fnx/packages/package-a/local/.fnx.fnl"
- :identifier "package-a"
- :install-from {:mode "local" :path "/lorem"}
- :language "fennel"
- :provider "fnx"
- :usage-path "/home/.fnx/packages/package-a/local"}
-
 (fn logic.build-fnx [dependency identifier configuration working-directory fnx-data-directory]
   (var mode nil)
 
@@ -86,7 +78,7 @@
     :usage-path
     (helper/path.expand
       "/"
-      (.. fnx-data-directory "packages/" identifier "/" version))))
+      (.. fnx-data-directory "packages/" identifier "/" version "/" identifier))))
 
 (fn logic.build-dependency [identifier configuration working-directory fnx-data-directory]
   (local dependency { :identifier identifier })
@@ -120,26 +112,60 @@
 (fn logic.injection-candidates [dependencies]
   (helper/list.filter #(. $1 :usage-path) dependencies))
 
-(fn logic.injection-path [usage-path extension]
+(fn logic.injection-path-by-name [usage-path extension]
   (if (string.match usage-path (.. "%." extension "$"))
     (let [directory (helper/path.directory usage-path)]
       (.. directory "/?." extension))
     (.. usage-path "/?." extension)))
 
-(fn logic.to-injection [dependencies is-debug]
-  (let [injections
-          (->>
-            dependencies
-            (helper/list.map
-              #(match (. $1 :language)
-                :fennel (.. "--add-fennel-path "  (logic.injection-path (. $1 :usage-path) :fnl))
-                :lua    (.. "--add-package-path " (logic.injection-path (. $1 :usage-path) :lua)))
-              dependencies))]
-  
-    (if is-debug
+(fn logic.injection-path-by-init [usage-path extension ?name ?dir]
+  (let [name      (or ?name "init")
+        dir       (or ?dir "?")
+        directory (helper/path.previous
+                    (if (string.match usage-path (.. "%." extension "$"))
+                        (helper/path.directory usage-path)
+                        usage-path))]
+    (if (= directory "/")
+      (.. "/" dir "/init." extension)
+      (.. directory "/" dir "/" name "." extension))))
+
+(fn logic.injection-paths-for [dependency]
+  (let [paths []]
+    (match (. dependency :language)
+      :fennel
       (do
-        (helper/list.sort injections)
-        (.. (helper/list.join "\n" injections) "\n"))
-      (.. " " (helper/list.join " " injections)))))
+        (table.insert paths {
+          :destination :fennel-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-name (. dependency :usage-path) :fnl) })
+        (table.insert paths {
+          :destination :fennel-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-init (. dependency :usage-path) :fnl) })
+        (table.insert paths {
+          :destination :macro-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-name (. dependency :usage-path) :fnl) })
+        (table.insert paths {
+          :destination :macro-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-init (. dependency :usage-path) :fnl "init-macros") })
+        (table.insert paths {
+          :destination :macro-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-init (. dependency :usage-path) :fnl) })
+        (table.insert paths {
+          :destination :macro-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-init (. dependency :usage-path) :fnl "init-macros" (. dependency :identifier)) }))
+      :lua
+      (do
+        (table.insert paths {
+          :destination :package-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-name (. dependency :usage-path) :lua) })
+        (table.insert paths {
+          :destination :package-path :identifier (. dependency :identifier)
+          :path (logic.injection-path-by-init (. dependency :usage-path) :lua) })))
+    paths))
+
+(fn logic.to-injection [dependencies]
+  (->>
+    dependencies
+    (helper/list.map logic.injection-paths-for)
+    (helper/list.flatten)))
 
 logic

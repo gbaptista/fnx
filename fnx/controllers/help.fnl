@@ -15,7 +15,7 @@
        [:line "  fnx version"]
        [:line "  fnx dep"]
        [:line "  fnx config"]
-       [:line "  fnx debug [file.fnl]"]
+       [:line "  fnx debug [file.fnl] [-b]"]
        [:line "  fnx env"]
        [:line ""]])))
 
