@@ -35,8 +35,6 @@
 
     (local cyclic-control {:_any? false})
 
-    (controller.install! not-installed cyclic-control arguments)
-
     (var keep-installing true)
     (var protection 1000)
 

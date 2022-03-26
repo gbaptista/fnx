@@ -6,6 +6,7 @@
 (local controller/env (require :fnx.controllers.env))
 (local controller/help (require :fnx.controllers.help))
 (local controller/injection (require :fnx.controllers.injection))
+(local controller/debug (require :fnx.controllers.debug))
 (local controller/trap (require :fnx.controllers.trap))
 (local controller/version (require :fnx.controllers.version))
 
@@ -18,7 +19,7 @@
   (match (. arguments :command)
     :config  (controller/config.handle!)
     :env     (controller/env.handle!)
-    :debug   (controller/injection.handle! arguments)
+    :debug   (controller/debug.handle! arguments)
     :dep     (port/dep-in.handle! input?)
     :help    (controller/help.handle!)
     :inject  (controller/injection.handle! arguments)

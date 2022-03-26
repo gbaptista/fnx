@@ -1,8 +1,32 @@
+(local fennel {})
 (local helper {})
+
+(fn helper.legacy-pack [...]
+  (let [result [...]]
+    (tset result :n (select "#" ...))
+    result))
+
+(fn helper.pack [...]
+  (let [pack-fn (or (. table :pack) helper.legacy-pack)]
+    (pack-fn ...)))
 
 (fn helper.unpack [...]
   (let [unpack-fn (or (. table :unpack) (. _G :unpack))]
     (unpack-fn ...)))
+
+(fn helper.insert-between-if [to-insert f list]
+  (local result [])
+  (var first true)
+  (var previous nil)
+
+  (each [_ value (pairs list)]
+    (when (not first)
+      (when (f previous value) (table.insert result to-insert)))
+      (table.insert result value)
+    (set previous value)
+    (set first false))
+
+  result)
 
 (fn helper.insert-between [f-before f-after to-insert list]
   (local result list)
@@ -89,5 +113,23 @@
 (fn helper.map [f list]
   (helper.reduce
     #(do (table.insert $1 (f $2)) $1) list []))
+
+(fn helper.concat [...]
+  (let [result []]
+    (each [_ list (ipairs (table.pack ...))]
+      (each [_ value (pairs list)] (table.insert result value)))
+    result))
+
+(fn helper.flatten [lists]
+  (helper.concat (helper.unpack lists)))
+
+(fn helper.uniq [list]
+  (local control {})
+  (local result [])
+  (each [_ value (pairs list)]
+    (when (not (. control value))
+      (table.insert result value)
+      (tset control value true)))
+  result)
 
 helper

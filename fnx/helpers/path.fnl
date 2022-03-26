@@ -16,6 +16,9 @@
 (fn helper.sanitize [input]
   (-> input (string.gsub "//" "/") (string.gsub "/$" "")))
 
+(fn helper.previous [path]
+  (helper.expand path ".."))
+
 (fn helper.expand [reference path]
   (if (not (string.match reference "^%/"))
     (error (.. "invalid reference path: \"" reference "\"")))

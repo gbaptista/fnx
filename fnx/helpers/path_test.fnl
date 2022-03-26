@@ -12,6 +12,9 @@
 
 (t.eq (helper.directory "radioactive/pastel_mint.lua") "./radioactive")
 
+(t.eq (helper.previous "/folder/lorem") "/folder")
+(t.eq (helper.previous "/radioactive") "/")
+
 (t.eq
   (helper.expand "/home/blue" "./red/file.lua")
   "/home/blue/red/file.lua")
