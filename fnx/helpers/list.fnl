@@ -1,4 +1,3 @@
-(local fennel {})
 (local helper {})
 
 (fn helper.legacy-pack [...]
