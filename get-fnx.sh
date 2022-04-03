@@ -4,7 +4,7 @@ git clone \
   -c advice.detachedHead=false \
   --depth 1 \
   --branch v0.1.3 \
-  git@github.com:gbaptista/fnx.git
+  https://github.com/gbaptista/fnx.git
 
 cd fnx
 
