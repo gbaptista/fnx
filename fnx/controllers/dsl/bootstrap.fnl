@@ -33,7 +33,7 @@
 (fn controller.build-dependencies! [?main-dot-fnx-path]
   (let [working-directory (or
                             (logic.working-directory ?main-dot-fnx-path)
-                            (component/io.current-directory))
+                            (component/io.working-directory))
         main-dot-fnx-path (or ?main-dot-fnx-path (.. working-directory "/.fnx.fnl"))
         dependencies      (controller/injection.build-dependencies-from
                             main-dot-fnx-path (os.getenv "FNX_DATA_DIRECTORY"))]

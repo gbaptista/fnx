@@ -1,4 +1,4 @@
-(local sn (require :supernova))
+(local sn (require :fnx.helpers.supernova))
 
 (local port/shell-out (require :fnx.ports.out.shell))
 
@@ -16,7 +16,7 @@
 (fn controller.handle! [arguments]
    (let [{:core-fnx core-fnx :to-list  to-list}
           (controller/dependencies.load-data! arguments)
-         working-directory (component/io.current-directory)
+         working-directory (component/io.working-directory)
          main-dot-fnx-path (.. working-directory "/.fnx.fnl")
          dependencies (. (controller/dependencies.build-from main-dot-fnx-path) :candidates)]
 

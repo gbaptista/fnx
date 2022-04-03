@@ -1,6 +1,6 @@
 (local logic {})
 
-(local sn (require :supernova))
+(local sn (require :fnx.helpers.supernova))
 
 (fn logic.display [version]
   (sn.gradient

@@ -3,6 +3,7 @@
 (local adapter/argv (require :fnx.adapters.argv))
 
 (local controller/config (require :fnx.controllers.config))
+(local controller/sudo (require :fnx.controllers.sudo))
 (local controller/env (require :fnx.controllers.env))
 (local controller/help (require :fnx.controllers.help))
 (local controller/injection (require :fnx.controllers.injection))
@@ -11,12 +12,13 @@
 (local controller/version (require :fnx.controllers.version))
 
 (local port {
-  :trapable [:config :debug :dep :env :help :version]})
+  :trapable [:config :sudo :debug :dep :env :help :version]})
 
 (fn port.handle! [input?]
   (let [input     (or input? arg)
         arguments (adapter/argv.parse input)]
   (match (. arguments :command)
+    :sudo    (controller/sudo.handle! arguments)
     :config  (controller/config.handle!)
     :env     (controller/env.handle!)
     :debug   (controller/debug.handle! arguments)
