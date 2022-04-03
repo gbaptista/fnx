@@ -9,9 +9,9 @@
 
 (local controller {})
 
-(fn controller.load-data! [arguments]
-  (let [working-directory (component/io.current-directory)
-        core-fnx     (model/xpackage.load (.. (os.getenv :FNX_CORE_PATH) "/.fnx.fnl"))
+(fn controller.load-data! [arguments ?working-directory]
+  (let [working-directory (or ?working-directory (component/io.working-directory))
+        core-fnx          (model/xpackage.load (.. (os.getenv :FNX_CORE_PATH) "/.fnx.fnl"))
         dependencies
           (->>
             (.. working-directory "/.fnx.fnl")
@@ -68,7 +68,7 @@
         acc))))
 
 (fn controller.dependencies-for [dot-fnx-path]
-  (let [working-directory (component/io.current-directory)]
+  (let [working-directory (component/io.working-directory)]
     (if (or (not dot-fnx-path) (not (component/io.exists? dot-fnx-path)))
       []
       (->>

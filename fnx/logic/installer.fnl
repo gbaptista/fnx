@@ -1,4 +1,4 @@
-(local sn (require :supernova))
+(local sn (require :fnx.helpers.supernova))
 
 (local logic {
   :confirm "Proceed with the installation?"

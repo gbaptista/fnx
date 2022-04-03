@@ -1,4 +1,4 @@
-(local sn (require :supernova))
+(local sn (require :fnx.helpers.supernova))
 
 (local port/shell-out (require :fnx.ports.out.shell))
 

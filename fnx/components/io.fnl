@@ -29,7 +29,12 @@
 (fn component.ensure-directory [path]
   (os.execute (.. "mkdir -p " path)))
 
-(fn component.current-directory [command]
+(fn component.working-directory []
+  (or
+    (os.getenv "FNX_WORKING_DIRECTORY")
+    (component.current-directory)))
+
+(fn component.current-directory []
   (helper/string.strip (component.os-output "pwd")))
 
 (fn component.exists? [file-path]

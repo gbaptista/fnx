@@ -16,7 +16,7 @@
       dependencies)))
 
 (fn controller.dot-fnx-path [?main-dot-fnx-path]
-  (or ?main-dot-fnx-path (.. (component/io.current-directory) "/.fnx.fnl")))
+  (or ?main-dot-fnx-path (.. (component/io.working-directory) "/.fnx.fnl")))
 
 (fn controller.packages [?main-dot-fnx-path]
   (let [dot-fnx-path (controller.dot-fnx-path ?main-dot-fnx-path)

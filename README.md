@@ -14,6 +14,7 @@ A package manager for the [Fennel](https://fennel-lang.org/) language.
   - [Options](#installation-options)
   - [Requirements](#requirements)
 - [Performance](#performance)
+- [sudo](#sudo)
 - [Debugging](#debugging)
   - [Inside Fennel](#inside-fennel)
 - [Development](#development)
@@ -168,7 +169,7 @@ Options for the `fennel run/install.fnl` command:
 - [Unix](https://en.wikipedia.org/wiki/Unix)
   - [`sh`](https://en.wikipedia.org/wiki/Bourne_shell) [`chmod`](https://en.wikipedia.org/wiki/Chmod) `cp` `ln` `ls` `mkdir` `rm`
 
-### Performance
+## Performance
 
 You might not be happy with the performance of the `fnx` command compared to  `fennel`.
 
@@ -187,7 +188,16 @@ Add into your entrypoint source code:
 
 Done. Just run `fennel source.fnl` as usual instead of `fnx source.fnl`.
 
-### Debugging
+## sudo
+
+If you need to use `fnx` with the `sudo` command, you may want to install `fnx` dependencies in the superuser context for a complete experience.
+
+You can do that with:
+```
+sudo fnx sudo
+```
+
+## Debugging
 
 You can run `fnx debug` to understand what exactly is being injected:
 ```sh
@@ -228,7 +238,7 @@ fennel.macro-path /.local/share/.fnx/packages/fspec/default/?/init-macros.fnl
 fennel.macro-path /.local/share/.fnx/packages/fspec/default/?/init.fnl
 ```
 
-#### Inside Fennel
+### Inside Fennel
 
 > **Warning:** The `debug` namespace is for debugging only purposes. Its API is unstable and may change anytime. Please don't use it in a way that your project depends on it.
 
@@ -279,14 +289,14 @@ If you are using a custom `.fnx.fnl` file:
 (fnx.bootstrap! custom-dot-fnx)
 ```
 
-### Development
+## Development
 
 ```
 fnx dep install
 fnx run/test.fnl
 ```
 
-### Not a Roadmap
+## Not a Roadmap
 
 A list of things that I don't have time to do or that just aren't itching me enough to do something about it, but I would like to do it someday, eventually:
 

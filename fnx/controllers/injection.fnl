@@ -26,12 +26,22 @@
             (helper/list.join " ")))))))
 
 (fn controller.build-injections! [arguments]
-  (let [working-directory (component/io.current-directory)
+  (let [working-directory (component/io.working-directory)
         main-dot-fnx-path (.. working-directory "/.fnx.fnl")
         dependencies      (controller.build-dependencies-from
                             main-dot-fnx-path
-                            (os.getenv "FNX_DATA_DIRECTORY"))]
+                            (os.getenv "FNX_DATA_DIRECTORY")
+                            (controller.self-injection working-directory))]
+
     (logic/dependencies.to-injection dependencies.injections)))
+
+(fn controller.self-injection [working-directory]
+  {:injections [{:cyclic-key (.. "self:" working-directory)
+   :dot-fnx-candidate-path (.. working-directory "/.fnx.fnl")
+   :identifier "fspec"
+   :language "fennel"
+   :provider "local"
+   :usage-path working-directory}] :cyclic-control { :dot-fnx {} :injection {} }})
 
 (fn controller.build-dependencies-from [dot-fnx-path fnx-data-directory ?acc]
   (let [acc (or ?acc {:injections [] :cyclic-control { :dot-fnx {} :injection {} }})]

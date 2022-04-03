@@ -1,4 +1,4 @@
-(local sn (require :supernova))
+(local sn (require :fnx.helpers.supernova))
 
 (local helper/list (require :fnx.helpers/list))
 
