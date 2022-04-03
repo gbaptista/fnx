@@ -1,5 +1,5 @@
 {:name    "fnx"
- :version "0.1.2"
+ :version "0.1.3"
 
  :dependencies {
    :supernova {:lua/rock   ">= 0.0.2"}
